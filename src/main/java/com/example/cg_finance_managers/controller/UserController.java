@@ -1,5 +1,6 @@
 package com.example.cg_finance_managers.controller;
 
+import com.example.cg_finance_managers.dto.user_dto.UserInformation;
 import com.example.cg_finance_managers.model.User;
 import com.example.cg_finance_managers.service.IUserService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,6 +41,17 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(e.getMessage());
         }
+    }
+
+    @PutMapping("information/user/{id}")
+    public ResponseEntity<?> updateUserInformation(@Valid @PathVariable("id") Long id, @Valid @RequestBody UserInformation userInformation, BindingResult result){
+        if(result.hasErrors()){
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+        Optional<User> userOptional = userService.findById(id);
+        if(userOptional.isPresent()){
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

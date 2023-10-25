@@ -5,6 +5,7 @@ import com.example.cg_finance_managers.repository.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -44,5 +45,10 @@ public class UserService implements IUserService {
     public boolean checkPasswordAndConfrimPassword(User user) {
         return user.getPassword().equals(user.getConfirmPassword());
 
+    }
+
+    @Override
+    public void updateUserInformation(Long userId, String fullName, String address, Date birthday, String email) {
+        userRepo.updateUserInformation(userId,fullName,address,birthday,email);
     }
 }

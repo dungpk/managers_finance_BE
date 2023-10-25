@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "user")
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class User {
     private String accountName;
     private String fullName;
     private String address;
-    private String birthday;
+    private Date birthday;
     @NotEmpty(message = "Không để trường email trống.")
     @Email(message = "Nhập đúng định dạng email.")
     private String email;
