@@ -1,6 +1,7 @@
 package com.example.cg_finance_managers.controller;
 
 import com.example.cg_finance_managers.model.User;
+import com.example.cg_finance_managers.model.dto.UserDto;
 import com.example.cg_finance_managers.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +20,29 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private IUserService userService;
-
     @PostMapping("register")
-    private ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+    private ResponseEntity<?> createUser(@RequestBody UserDto userDto, BindingResult bindingResult) throws Exception {
+        User user = new User();
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getFieldErrors().stream()
+
+               List<String> errors = bindingResult.getFieldErrors()
+                    .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.toList());
             return ResponseEntity.badRequest().body(errors);
         }
         try {
-            if(userService.checkPasswordAndConfrimPassword(user)){
-                return new ResponseEntity<>(userService.createUser(user),HttpStatus.OK);
+            if (userDto.getPassword().equals(userDto.getConfirmPassword())) {
+                user.setEmail(userDto.getEmail());
+                user.setPassword(userDto.getPassword());
+                return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Mật khẩu không khớp", HttpStatus.UNAUTHORIZED);
             }
-            else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
 }

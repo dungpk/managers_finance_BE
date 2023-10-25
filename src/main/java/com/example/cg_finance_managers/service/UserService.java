@@ -14,7 +14,7 @@ public class UserService implements IUserService {
 
     @Override
     public User save(User user) {
-        return userRepo.save(user);
+         return userRepo.save(user);
     }
 
     @Override
@@ -40,9 +40,5 @@ public class UserService implements IUserService {
         return userRepo.save(user);
     }
 
-    @Override
-    public boolean checkPasswordAndConfrimPassword(User user) {
-        return user.getPassword().equals(user.getConfirmPassword());
 
-    }
 }

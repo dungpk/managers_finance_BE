@@ -1,6 +1,8 @@
-package com.example.cg_finance_managers.model;
+package com.example.cg_finance_managers.model.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -9,19 +11,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class User {
+
+public class UserDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long userId;
-    private String accountName;
-    private String fullName;
-    private String address;
-    private String birthday;
+    private String userName;
     @NotEmpty(message = "Không để trường email trống.")
     @Email(message = "Nhập đúng định dạng email.")
     private String email;
@@ -32,5 +30,6 @@ public class User {
             message = "Mật khẩu phải chứa các kí tự đặc biệt. "
     )
     private String password;
-    private String url;
+    private String  confirmPassword;
+    private String number;
 }
