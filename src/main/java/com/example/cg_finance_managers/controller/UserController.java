@@ -50,8 +50,17 @@ public class UserController {
         }
         Optional<User> userOptional = userService.findById(id);
         if(userOptional.isPresent()){
+            try {
+                userService.updateUserInformation(id,userInformation.getFullName(),userInformation.getAddress(),
+                        userInformation.getBirthday(),userInformation.getEmail());
+                return new ResponseEntity<>(userInformation, HttpStatus.OK);
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+
+        }else{
+            return new ResponseEntity<>("User not Found",HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
