@@ -1,4 +1,4 @@
-package com.example.cg_finance_managers.service;
+package com.example.cg_finance_managers.service.user;
 
 import com.example.cg_finance_managers.model.User;
 import com.example.cg_finance_managers.repository.IUserRepo;

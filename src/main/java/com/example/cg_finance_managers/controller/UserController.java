@@ -2,8 +2,7 @@ package com.example.cg_finance_managers.controller;
 
 import com.example.cg_finance_managers.model.User;
 import com.example.cg_finance_managers.model.dto.UserDto;
-import com.example.cg_finance_managers.service.IUserService;
-import jakarta.validation.Valid;
+import com.example.cg_finance_managers.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
