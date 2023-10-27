@@ -1,10 +1,11 @@
 package com.example.cg_finance_managers.controller;
 
+import com.example.cg_finance_managers.dto.user_dto.information.UserInformation;
 import com.example.cg_finance_managers.dto.user_dto.password.UserPassword;
 import com.example.cg_finance_managers.model.User;
-import com.example.cg_finance_managers.model.dto.UserDto;
-import com.example.cg_finance_managers.service.user.IUserService;
 import jakarta.validation.Valid;
+import com.example.cg_finance_managers.dto.user_dto.UserRegister.UserDto;
+import com.example.cg_finance_managers.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RequestMapping("/user/")
 public class UserController {
+
     @Autowired
     private IUserService userService;
 
@@ -55,6 +57,7 @@ public class UserController {
         }
     }
 
+
     @PutMapping("information/{id}")
     public ResponseEntity<?> updateUserInformation(@PathVariable("id") Long id,@Valid @RequestBody UserInformation userInformation, BindingResult result){
         if (result.hasErrors()) {
@@ -80,7 +83,7 @@ public class UserController {
 
 
     @PostMapping("/updatePassword/{id}")
-    public ResponseEntity<?> changeUserPassword(Locale locale, @PathVariable("id") Long id, @Valid @RequestBody UserPassword userPassword, BindingResult result){
+    public ResponseEntity<?> changeUserPassword(Locale locale, @PathVariable("id") Long id,@Valid @RequestBody UserPassword userPassword, BindingResult result){
         if(result.hasErrors()){
             return errorBadRequest(result);
         }

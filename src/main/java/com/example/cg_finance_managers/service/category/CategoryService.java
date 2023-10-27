@@ -1,16 +1,13 @@
 package com.example.cg_finance_managers.service.category;
 
 import com.example.cg_finance_managers.model.Category;
-import com.example.cg_finance_managers.repository.ICategoryRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class CateService implements ICategoryService{
-    @Autowired
-    private ICategoryRepo categoryRepo;
+public class CategoryService implements ICategoryService {
+
     @Override
     public Category save(Category category) {
         return null;

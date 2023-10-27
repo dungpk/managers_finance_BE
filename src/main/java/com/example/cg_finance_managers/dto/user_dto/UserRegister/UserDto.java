@@ -1,4 +1,4 @@
-package com.example.cg_finance_managers.model.dto;
+package com.example.cg_finance_managers.dto.user_dto.UserRegister;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
