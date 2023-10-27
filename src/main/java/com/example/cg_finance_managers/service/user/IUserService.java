@@ -12,5 +12,6 @@ public interface IUserService extends IGenerateService<User> {
     void updateUserInformation(Long userId, String fullName, String address, Date birthday,String email);
 
     void updatePasswordUser(Long id,String newPassword);
+    String checkIsValidUser(String email,String password);
 
 }
