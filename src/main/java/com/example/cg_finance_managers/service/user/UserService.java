@@ -2,7 +2,7 @@ package com.example.cg_finance_managers.service.user;
 
 import com.example.cg_finance_managers.model.User;
 import com.example.cg_finance_managers.repository.IUserRepo;
-import com.example.cg_finance_managers.service.IUserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
