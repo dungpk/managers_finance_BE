@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 @NoArgsConstructor
@@ -33,7 +35,18 @@ public class User {
 //            regexp = "^(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
 //            message = "Mật khẩu phải chứa các kí tự đặc biệt. "
 //    )
+
+    @NotEmpty(message = "Không được để mật khẩu trống.")
+    @Size(min = 8, message = "Mật khẩu có ít nhất 8 ký tự.")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "Mật khẩu phải chứa các kí tự đặc biệt.")
     private String password;
-    private String confirmPassword;
+
     private String url;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Wallet> wallets;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Category> categories;
+
 }

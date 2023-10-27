@@ -1,4 +1,6 @@
-package com.example.cg_finance_managers.service;
+
+
+package com.example.cg_finance_managers.service.user;
 
 import com.example.cg_finance_managers.model.User;
 import com.example.cg_finance_managers.repository.IUserRepo;
@@ -10,8 +12,9 @@ import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
+
     @Autowired
-        private IUserRepo userRepo;
+    private IUserRepo userRepo;
 
     @Override
     public User save(User user) {
@@ -39,12 +42,6 @@ public class UserService implements IUserService {
             throw new Exception("email này đã được đăng ký");
         }
         return userRepo.save(user);
-    }
-
-    @Override
-    public boolean checkPasswordAndConfrimPassword(User user) {
-        return user.getPassword().equals(user.getConfirmPassword());
-
     }
 
     @Override

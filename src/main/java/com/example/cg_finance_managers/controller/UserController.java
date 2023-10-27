@@ -3,9 +3,9 @@ package com.example.cg_finance_managers.controller;
 import com.example.cg_finance_managers.dto.user_dto.information.UserInformation;
 import com.example.cg_finance_managers.dto.user_dto.password.UserPassword;
 import com.example.cg_finance_managers.model.User;
-import com.example.cg_finance_managers.service.IUserService;
 import jakarta.validation.Valid;
-import org.aspectj.bridge.Message;
+import com.example.cg_finance_managers.dto.user_dto.UserRegister.UserDto;
+import com.example.cg_finance_managers.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RequestMapping("/user/")
 public class UserController {
+
     @Autowired
     private IUserService userService;
 
@@ -33,25 +34,29 @@ public class UserController {
     }
 
     @PostMapping("register")
-    private ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+    private ResponseEntity<?> createUser(@RequestBody UserDto userDto, BindingResult bindingResult) throws Exception {
+        User user = new User();
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getFieldErrors().stream()
+
+               List<String> errors = bindingResult.getFieldErrors()
+                    .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.toList());
             return ResponseEntity.badRequest().body(errors);
         }
         try {
-            if(userService.checkPasswordAndConfrimPassword(user)){
-                return new ResponseEntity<>(userService.createUser(user),HttpStatus.OK);
+            if (userDto.getPassword().equals(userDto.getConfirmPassword())) {
+                user.setEmail(userDto.getEmail());
+                user.setPassword(userDto.getPassword());
+                return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Mật khẩu không khớp", HttpStatus.UNAUTHORIZED);
             }
-            else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @PutMapping("information/{id}")
     public ResponseEntity<?> updateUserInformation(@PathVariable("id") Long id,@Valid @RequestBody UserInformation userInformation, BindingResult result){
