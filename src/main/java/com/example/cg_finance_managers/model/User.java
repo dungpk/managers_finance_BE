@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "user")
 @NoArgsConstructor
@@ -23,15 +25,16 @@ public class User {
     private String accountName;
     private String fullName;
     private String address;
-    private String birthday;
-
+    private Date birthday;
     @NotEmpty(message = "Không để trường email trống.")
     @Email(message = "Nhập đúng định dạng email.")
     private String email;
-
-    @NotEmpty(message = "Không được để mật khẩu trống.")
-    @Size(min = 8, message = "Mật khẩu có ít nhất 8 ký tự.")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "Mật khẩu phải chứa các kí tự đặc biệt.")
+    @NotEmpty(message = "Không được để mật khẩu trống. ")
+//    @Size(min = 8, message = "Mật khẩu có ít nhất 8 ký tự.")
+//    @Pattern(
+//            regexp = "^(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
+//            message = "Mật khẩu phải chứa các kí tự đặc biệt. "
+//    )
     private String password;
 
     private String url;
