@@ -1,9 +1,11 @@
 package com.example.cg_finance_managers.controller;
 
-import com.example.cg_finance_managers.dto.user_dto.UserInformation;
+import com.example.cg_finance_managers.dto.user_dto.information.UserInformation;
+import com.example.cg_finance_managers.dto.user_dto.password.UserPassword;
 import com.example.cg_finance_managers.model.User;
 import com.example.cg_finance_managers.service.IUserService;
 import jakarta.validation.Valid;
+import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,6 +24,13 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private IUserService userService;
+
+    private ResponseEntity<?> errorBadRequest(BindingResult bindingResult){
+        List<String> errors = bindingResult.getFieldErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.toList());
+        return ResponseEntity.badRequest().body(errors);
+    }
 
     @PostMapping("register")
     private ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult bindingResult) {
@@ -43,10 +53,13 @@ public class UserController {
         }
     }
 
-    @PutMapping("information/user/{id}")
-    public ResponseEntity<?> updateUserInformation(@Valid @PathVariable("id") Long id, @Valid @RequestBody UserInformation userInformation, BindingResult result){
-        if(result.hasErrors()){
-            return ResponseEntity.badRequest().body(result.getAllErrors());
+    @PutMapping("information/{id}")
+    public ResponseEntity<?> updateUserInformation(@PathVariable("id") Long id,@Valid @RequestBody UserInformation userInformation, BindingResult result){
+        if (result.hasErrors()) {
+                List<String> errors = result.getFieldErrors().stream()
+                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                        .collect(Collectors.toList());
+                return ResponseEntity.badRequest().body(errors);
         }
         Optional<User> userOptional = userService.findById(id);
         if(userOptional.isPresent()){
@@ -61,6 +74,31 @@ public class UserController {
         }else{
             return new ResponseEntity<>("User not Found",HttpStatus.NO_CONTENT);
         }
+    }
+
+
+    @PostMapping("/updatePassword/{id}")
+    public ResponseEntity<?> changeUserPassword(Locale locale, @PathVariable("id") Long id,@Valid @RequestBody UserPassword userPassword, BindingResult result){
+        if(result.hasErrors()){
+            return errorBadRequest(result);
+        }
+        Optional<User> userOptional = userService.findById(id);
+
+        if(userOptional.isPresent()){
+            if(!userOptional.get().getPassword().equals(userPassword.getOldPassword())){
+                return ResponseEntity.badRequest().body("PassWord Do not Match");
+            }
+            try {
+                userService.updatePasswordUser(id,userPassword.getNewPassword());
+                return new ResponseEntity<>(userPassword.getNewPassword(), HttpStatus.OK);
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+
+        }else{
+            return new ResponseEntity<>("Change Password Failed",HttpStatus.NO_CONTENT);
+        }
+
     }
 
 }

@@ -11,4 +11,6 @@ public interface IUserService extends IGenerateService<User> {
     boolean checkPasswordAndConfrimPassword(User user);
     void updateUserInformation(Long userId, String fullName, String address, Date birthday,String email);
 
+    void updatePasswordUser(Long id,String newPassword);
+
 }

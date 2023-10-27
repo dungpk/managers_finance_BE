@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class UserService implements IUserService {
     @Autowired
-    private IUserRepo userRepo;
+        private IUserRepo userRepo;
 
     @Override
     public User save(User user) {
@@ -20,7 +20,7 @@ public class UserService implements IUserService {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+        return userRepo.findById(id);
     }
 
     @Override
@@ -50,5 +50,10 @@ public class UserService implements IUserService {
     @Override
     public void updateUserInformation(Long userId, String fullName, String address, Date birthday, String email) {
         userRepo.updateUserInformation(userId,fullName,address,birthday,email);
+    }
+
+    @Override
+    public void updatePasswordUser(Long id,String newPassword) {
+        userRepo.changeUserPassword(id,newPassword);
     }
 }

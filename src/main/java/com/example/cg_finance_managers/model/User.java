@@ -28,11 +28,11 @@ public class User {
     @Email(message = "Nhập đúng định dạng email.")
     private String email;
     @NotEmpty(message = "Không được để mật khẩu trống. ")
-    @Size(min = 8, message = "Mật khẩu có ít nhất 8 ký tự.")
-    @Pattern(
-            regexp = "^(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
-            message = "Mật khẩu phải chứa các kí tự đặc biệt. "
-    )
+//    @Size(min = 8, message = "Mật khẩu có ít nhất 8 ký tự.")
+//    @Pattern(
+//            regexp = "^(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
+//            message = "Mật khẩu phải chứa các kí tự đặc biệt. "
+//    )
     private String password;
     private String confirmPassword;
     private String url;
