@@ -26,7 +26,7 @@ public class LoginJwt {
             if (user.get().getEmail().equals(email) && user.get().getPassword().equals(password)) {
                 String jwt = Jwt.createJWT(user.get());
                 Claims jwtExample = Jwt.decryptionJwt(jwt);
-                user.get().setUrl(jwt);
+                user.get().setJWT(jwt);
                 userService.save(user.get());
                 return new ResponseEntity<>(jwtExample, HttpStatus.OK);
             }

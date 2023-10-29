@@ -48,7 +48,7 @@ public class Jwt {
         }
         return claimsJwt;
     }
-//    Phuong thuc dung de
+//    Phuong thuc dung de giải
     public String checkAuthenticateRequest(HttpServletRequest request){
         String jwt=extractJWTFromRequest(request);
         if(jwt!=null){

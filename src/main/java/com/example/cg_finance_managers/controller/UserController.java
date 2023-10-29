@@ -48,6 +48,7 @@ public class UserController {
             if (userDto.getPassword().equals(userDto.getConfirmPassword())) {
                 user.setEmail(userDto.getEmail());
                 user.setPassword(userDto.getPassword());
+                user.setAccountName(userDto.getUserName());
                 return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Mật khẩu không khớp", HttpStatus.UNAUTHORIZED);
